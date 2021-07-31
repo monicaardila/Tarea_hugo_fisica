@@ -1,67 +1,39 @@
+package hugo;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
-public class logica{
-    static double media=0;
-    static double suma=0;
-    static double suma1=0;
-    static double raiz=0;
-    static ArrayList<Double> li =new ArrayList<Double>();
-    static ArrayList<Double> li1 =new ArrayList<Double>();
+public class logica {
+    static double media = 0;
+    static double suma = 0;
+    static double suma1 = 0;
+    static double raiz = 0;
 
-    public static void agregar (double x)
-    {
+    static ArrayList<Double> li = new ArrayList<Double>();
+    static ArrayList<Double> li1 = new ArrayList<Double>();
+
+    public void agregar(double x)                                                          /*metodo y paramtro */ {
         li.add(x);
     }
 
-    public static void Media (JTextField t,JTextField r)                                      /* metodo para calcular la media*/
-    {
-        if(li.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Agrege elemenos!" );
-        } else{
-            for (Double c : li){
-                suma=+c;
-            }
-        
-        t.setText(String.valueOf(suma));
+    public String Media() {
+        for (int i = 0; i < li.size(); i++) {
+            suma += li.get(i);
+        }
+        double media = suma / li.size();
+        return "la suma es " + suma + " la media es " + media;
 
-        media=suma/li.size();
-        r.setText(String.valueOf(media));
-        suma=0;
     }
-    }
-    public static void Imprime(JTextArea a)                                                   /*Imprimimos los datos de la lista*/
-    {
-        a.setText(String.valueOf(li));
-    }
+    public String Desviacion() {     /*metodo para calcular la desviacion estándar*/
 
-    public static void Desviacion(JTextField s, JTextField e, JTextField o,JTextField p){     /*metodo para calcular la desviacion estándar*/
-
-        for (int i=0; i< li.size();i++){
-            li1.add(Math.pow(li.get(i)-media,2));                        /*li1 es cuadro a la distancia a la media ej (x-x1) pow 2,media es el resultado del metodo media ,li.get(i) es valor del conjunto de datos */
-            e.setText(String.valueOf(li1));                                                   /*Mostramos texto  en el control JtexArea la distancia a la media */
+        for (int i = 0; i < li.size(); i++) {
+            double resta = Math.abs(li.get(i) - media);
+            li1.add(Math.pow(resta, 2));    /*li1 es cuadro a la distancia a la media ej (x-x1) pow 2,media es el resultado del metodo media ,li.get(i) es valor del conjunto de datos */
+        }
+        for (int x = 0; x < li1.size(); x++) {
+            suma1 += li1.get(x);
         }
 
-        for(Double col : li1){
-            suma1=suma1+col;                                                                  /*sumamos las distancia de la media */
-        }
-        o.setText(String.valueOf(suma1));                                                     /*Mostramos texto  en el control JtexArea la suma de las distancia de la media */        
-        raiz=Math.sqrt(suma1/(li1.size()));                                                   /*scamos la raiz cuadrada de suma1 y cantidad de datos */
-        p.setText(String.valueOf(raiz));                                                      /* *Mostramos texto resultado desviacion estandar*/
-    }
-    public static void eliminar()
-    {
-        li.clear();
-        li1.clear();
-    }
-    public static void Limpiar(JPanel panel){                                                /*Limpiamos los texfield */
-        for(int i = 0; panel.getComponents().length>i;i++){
-            if(panel.getComponents()[i]instanceof JTextField){
-                ((JTextField)panel.getComponents()[i]).setText("");
-            }
-        }
+        double dato1=(suma1/(li1.size()));
+        raiz=Math.sqrt(dato1);
+        return "la suma es " + raiz;
     }
 }
